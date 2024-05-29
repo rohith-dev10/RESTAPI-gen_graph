@@ -6,7 +6,10 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+}));
 app.use(bodyParser.json());
 
 app.get("/",(req,res)=>{
@@ -28,6 +31,7 @@ app.post("/generate-plot", (req, res) => {
 
     pythonProcess.stdout.on("end", () => {
         const base64Image = Buffer.concat(dataChunks).toString();
+        console.log(base64Image);
         res.json({ image: base64Image });
     });
 
